@@ -3,9 +3,6 @@
     "tsBuildInfoFile": "./node_modules/.tmp/tsconfig.app.tsbuildinfo",
     "target": "ES2020",
     "useDefineForClassFields": true,
-    /**
-    lib - which build-in library is available
-    */
     "lib": ["ES2020", "DOM", "DOM.Iterable"],
     "module": "ESNext",
     "skipLibCheck": true,
@@ -19,11 +16,6 @@
     "jsx": "react-jsx",
 
     /* Linting */
-
-    /**
-    * with "strict: true" you always must explicitly set the type of parameters
-    * in a function
-    **/
     "strict": true,
     "noUnusedLocals": true,
     "noUnusedParameters": true,
@@ -32,4 +24,3 @@
   },
   "include": ["src"]
 }
-
