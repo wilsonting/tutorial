@@ -1,5 +1,12 @@
+import Button from "./components/Button";
+import Container from "./components/Container";
+
 function App() {
-  return <h1>Let's get started!</h1>;
+  return (
+    <main>
+      <Container as={Button}>Click Me</Container>
+    </main>
+  );
 }
 
 export default App;
