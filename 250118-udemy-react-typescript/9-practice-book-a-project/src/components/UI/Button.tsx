@@ -24,7 +24,7 @@ export default function Button(props: ButtonProps | CustomLinkProps) {
 
   if (isLinkProps(props)) {
     return (
-      <Link className={`button ${textOnlyClassName}`} to={props.to}>
+      <Link className={`button ${textOnlyClassName}`} {...props}>
         {props.children}
       </Link>
     );

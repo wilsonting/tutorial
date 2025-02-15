@@ -10,7 +10,7 @@ const Input = forwardRef<HTMLInputElement, InputProps>(function Input(
   ref
 ) {
   return (
-    <div>
+    <div className="control">
       <label>{label}</label>
       <input id={id} name={id} {...props} ref={ref} />
     </div>

@@ -1,12 +1,24 @@
 import { useParams } from "react-router-dom";
-
-import { SESSIONS } from "../dummy-sessions.ts";
+import { useSessionsContext } from "../store/sessions-context";
+import Button from "../components/UI/Button";
+import BookSession from "../components/BookSession";
+import { useState } from "react";
 
 export default function SessionPage() {
   const params = useParams<{ id: string }>();
-
   const sessionId = params.id;
-  const loadedSession = SESSIONS.find((session) => session.id === sessionId);
+
+  const [isBooking, setIsBooking] = useState<boolean>(false);
+  const { sessions } = useSessionsContext();
+  const loadedSession = sessions.find((session) => session.id === sessionId);
+
+  function handleBookSessionClick() {
+    setIsBooking(true);
+  }
+
+  function handleOnDone() {
+    setIsBooking(false);
+  }
 
   if (!loadedSession) {
     return (
@@ -18,6 +30,7 @@ export default function SessionPage() {
 
   return (
     <main id="session-page">
+      {isBooking && <BookSession onDone={handleOnDone} />}
       <article>
         <header>
           <img src={loadedSession.image} alt={loadedSession.title} />
@@ -31,7 +44,7 @@ export default function SessionPage() {
               })}
             </time>
             <p>
-              {/* Todo: Add button that opens "Book Session" dialog / modal */}
+              <Button onClick={handleBookSessionClick}>Book Session</Button>
             </p>
           </div>
         </header>

@@ -1,6 +1,8 @@
-import { SESSIONS } from "../dummy-sessions.ts"; // normally, we would probably load that from a server
+import SessionItem from "../components/SessionItem.tsx";
+import { useSessionsContext } from "../store/sessions-context.tsx";
 
 export default function SessionsPage() {
+  const { sessions } = useSessionsContext();
   return (
     <main id="sessions-page">
       <header>
@@ -11,7 +13,11 @@ export default function SessionsPage() {
           you!
         </p>
       </header>
-      {/* Todo: Output list of sessions */}
+      <div id="sessions-list">
+        {sessions.map((session) => (
+          <SessionItem key={session.id} session={session} />
+        ))}
+      </div>
     </main>
   );
 }
