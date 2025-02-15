@@ -13,10 +13,13 @@ export type Session = {
 
 type SessionsState = {
   sessions: Session[];
+  bookedSessions: Session[];
 };
 
 type SessionsContextValue = SessionsState & {
   addSession: (sessionData: Session) => void;
+  bookSession: (sessionData: Session) => void;
+  cancelBookedSession: (sessionId: string) => void;
 };
 
 const SessionsContext = createContext<SessionsContextValue | null>(null);
@@ -32,20 +35,31 @@ export function useSessionsContext() {
 
 //list of actions
 type AddSessionAction = {
-  type: "ADD_SESSIONS";
+  type: "ADD_SESSION";
   payload: Session;
 };
 
-type Action = AddSessionAction;
+type BookSessionAction = {
+  type: "BOOK_SESSION";
+  payload: Session;
+};
+
+type CancelBookSessionAction = {
+  type: "CANCEL_BOOK_SESSION";
+  id: string;
+};
+
+type Action = AddSessionAction | BookSessionAction | CancelBookSessionAction;
 
 //initialState
 const initialState: SessionsState = {
   sessions: SESSIONSMOCKDATA,
+  bookedSessions: [],
 };
 
 //reducer
 function sessionsReducer(state: SessionsState, action: Action): SessionsState {
-  if (action.type == "ADD_SESSIONS") {
+  if (action.type == "ADD_SESSION") {
     const { id, title, summary, description, duration, date, image } =
       action.payload;
     return {
@@ -64,6 +78,30 @@ function sessionsReducer(state: SessionsState, action: Action): SessionsState {
       ],
     };
   }
+  if (action.type === "BOOK_SESSION") {
+    if (
+      state.bookedSessions.some((session) => session.id === action.payload.id)
+    ) {
+      return state;
+    } else {
+      return {
+        ...state,
+        bookedSessions: state.bookedSessions.concat(action.payload),
+      };
+    }
+  }
+  if (action.type === "CANCEL_BOOK_SESSION") {
+    if (!state.bookedSessions.some((session) => session.id === action.id)) {
+      return state;
+    } else {
+      return {
+        ...state,
+        bookedSessions: state.bookedSessions.filter(
+          (session) => session.id !== action.id
+        ),
+      };
+    }
+  }
 
   return state;
 }
@@ -80,8 +118,15 @@ export default function SessionsContextProvider({
 
   const ctx: SessionsContextValue = {
     sessions: sessionsState.sessions,
+    bookedSessions: sessionsState.bookedSessions,
     addSession(sessionData) {
-      dispatch({ type: "ADD_SESSIONS", payload: sessionData });
+      dispatch({ type: "ADD_SESSION", payload: sessionData });
+    },
+    bookSession(sessionData) {
+      dispatch({ type: "BOOK_SESSION", payload: sessionData });
+    },
+    cancelBookedSession(sessionId) {
+      dispatch({ type: "CANCEL_BOOK_SESSION", id: sessionId });
     },
   };
 

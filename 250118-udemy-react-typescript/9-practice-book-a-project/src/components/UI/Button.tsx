@@ -20,16 +20,15 @@ function isLinkProps(
 }
 
 export default function Button(props: ButtonProps | CustomLinkProps) {
-  const textOnlyClassName = props.textOnly ? "button--text-only" : "";
-
   if (isLinkProps(props)) {
+    const textOnlyClassName = props.textOnly ? "button--text-only" : "";
     return (
       <Link className={`button ${textOnlyClassName}`} {...props}>
         {props.children}
       </Link>
     );
   }
-
+  const textOnlyClassName = props.textOnly ? "button--text-only" : "";
   return (
     <button className={`button ${textOnlyClassName}`} {...props}>
       {props.children}
