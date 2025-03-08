@@ -14,17 +14,14 @@ function createSupportChannel(email) {
   // ...
 }
 
-//DRY
 function inputIsValid(email, password) {
   return emailIsValid(email) && passwordIsValid(password);
 }
 
-//DRY
 function emailIsValid(email) {
   return email && email.includes("@");
 }
 
-//DRY
 function passwordIsValid(password) {
   return password && password.trim() !== "";
 }
@@ -33,12 +30,27 @@ function showErrorMessage(message) {
   console.log(message);
 }
 
-function saveUser(email, password) {
-  const user = buildUser(email, password);
+//better way to manage user data
+class User {
+  constructor(email, password) {
+    this.email = email;
+    this.password = password;
+  }
 
-  database.insert(user);
+  save() {
+    database.insert(this);
+  }
 }
 
+function saveUser(email, password) {
+  //good practice - same level of abstraction
+  const user = new User(email, password);
+
+  user.save();
+}
+
+//redundent - same level of abstraction
+//not improving readability
 function buildUser(email, password) {
   return {
     email: email,
