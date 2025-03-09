@@ -48,7 +48,7 @@ function processTransactions(transactions) {
   }
 }
 
-// Move validation function out from processTransactions
+/** Move validation function out from processTransactions */
 function validateTransactions(transactions) {
   //using Guards
   if (isEmpty(transactions)) {
@@ -59,18 +59,18 @@ function validateTransactions(transactions) {
   }
 }
 
-//extract to function and using positive phrasing
+/** extract to function and using positive phrasing */
 function isEmpty(transactions) {
   return !transactions || transactions.length <= 0;
 }
 
-//extract to function and using positive phrasing
+/** extract to function and using positive phrasing */
 function showErrorMessage(message, item = {}) {
   console.log(message);
   console.log(item);
 }
 
-//extract to function
+/** extract to function */
 function processTransaction(transaction) {
   try {
     validateTransaction(transaction);
@@ -90,7 +90,7 @@ function processWithProcessor(transaction) {
   }
 }
 
-//Factory function
+/** Factory function */
 function getTransactionProcessors() {
   let processors = {
     processPayment: null,
@@ -121,14 +121,14 @@ function getTransactionProcessors() {
 // }
 
 function validateTransaction(transaction) {
-  //using Guards
+  /** using Guards */
   if (transaction.type !== "PAYMENT" && transaction.type !== "REFUND") {
     const error = new Error("Invalid Transaction Type!");
     error.code = 1;
     return error;
   }
 
-  //using Guards
+  /** using Guards */
   if (transaction.status !== "OPEN") {
     const error = new Error("Invalid Transaction Type!");
     error.code = 1;
